@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/ui/sigle_child_scroller.dart';
+import 'package:flutter_study/ui/widget_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,6 +55,23 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            ElevatedButton(
+                onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const SingleChildScrollDemo()))
+                    },
+                child: const Text("跳转到singleChildScroll")),
+            ElevatedButton(
+                onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WidgetListPage()))
+                    },
+                child: const Text("跳转到list页面")),
           ],
         ),
       ),
