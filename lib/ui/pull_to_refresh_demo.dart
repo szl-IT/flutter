@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PullToRefreshPage extends StatefulWidget {
@@ -64,10 +66,11 @@ class PullToRefreshState extends State<PullToRefreshPage> {
     } catch (e) {}
   }
 
+  final _scrollerController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
@@ -76,17 +79,89 @@ class PullToRefreshState extends State<PullToRefreshPage> {
         physics: const BouncingScrollPhysics(),
         onRefresh: () => _onRefreshComplete(),
         onLoading: () => _onLoadMore(),
-        child: ListView.builder(
-          padding: const EdgeInsets.all(10),
-          itemBuilder: (BuildContext context, int index) {
-            return ElevatedButton(
-              onPressed: () => {},
-              child: Text(titleList[index]),
-            );
+        child: NestedScrollView(
+          controller: _scrollerController,
+          physics: const BouncingScrollPhysics(),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              _sliverAppBar(innerBoxIsScrolled),
+              _sliverList(),
+              SliverFixedExtentList(
+                  delegate: _sliverChildListDelegate(), itemExtent: 50)
+            ];
           },
-          itemCount: titleList.length,
+          body: ListView.builder(
+            padding: const EdgeInsets.all(10),
+            itemBuilder: (BuildContext context, int index) {
+              return ElevatedButton(
+                onPressed: () => {},
+                child: Text(titleList[index]),
+              );
+            },
+            itemCount: titleList.length,
+          ),
         ),
       ),
     );
+  }
+
+  SliverAppBar _sliverAppBar(bool fixTop) {
+    return SliverAppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light),
+      elevation: 0,
+      title: const Text('嵌套ListView'),
+      pinned: true,
+      floating: true,
+      expandedHeight: 300,
+      flexibleSpace: FlexibleSpaceBar(
+        title: const Text("sonzhling"),
+        centerTitle: true,
+        collapseMode: CollapseMode.pin,
+        stretchModes: const [
+          StretchMode.fadeTitle,
+          StretchMode.zoomBackground,
+          StretchMode.blurBackground
+        ],
+        background: Image.network(
+          'http://img.haote.com/upload/20180918/2018091815372344164.jpg',
+          fit: BoxFit.fitHeight,
+        ),
+      ),
+      // 固定在顶部
+      forceElevated: fixTop,
+      bottom: PreferredSize(
+          child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              color: Colors.amber,
+              height: 100,
+              child: const Center(
+                child: Text("data"),
+              )),
+          preferredSize: const Size(double.infinity, 100)),
+    );
+  }
+
+  SliverList _sliverList() {
+    return SliverList(delegate: _sliverChildListDelegate());
+  }
+
+  SliverChildListDelegate _sliverChildListDelegate() {
+    return SliverChildListDelegate([
+      Container(
+        height: 80,
+        color: Colors.primaries[0],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[1],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[2],
+      ),
+    ]);
   }
 }

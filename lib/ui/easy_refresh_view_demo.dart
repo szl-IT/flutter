@@ -1,18 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
-class NestedScrollViewPage extends StatefulWidget {
-  const NestedScrollViewPage({Key? key}) : super(key: key);
+class EasyRefreshPage extends StatefulWidget {
+  const EasyRefreshPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return NestedScrollViewState();
+    return EasyRefreshState();
   }
 }
 
-class NestedScrollViewState extends State<NestedScrollViewPage> {
+class EasyRefreshState extends State<EasyRefreshPage> {
+  late EasyRefreshController _easyRefreshController;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _easyRefreshController = EasyRefreshController();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _easyRefreshController.dispose();
+    _scrollController.dispose();
+  }
+
   var titleList = [
     "ListView",
     "ListView",
@@ -35,41 +52,52 @@ class NestedScrollViewState extends State<NestedScrollViewPage> {
     "ListView",
     "ListView",
   ];
-  final _refreshController = RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: NestedScrollView(
-        physics: const BouncingScrollPhysics(),
+        child: EasyRefresh.custom(
+      firstRefresh: true,
+      controller: _easyRefreshController,
+      enableControlFinishRefresh: true,
+      header: BezierCircleHeader(),
+      onRefresh: () async {
+        await Future.delayed(const Duration(milliseconds: 1000));
+        setState(() {
+          _easyRefreshController.finishRefresh();
+        });
+      },
+      onLoad: () async {
+        await Future.delayed(const Duration(milliseconds: 1000));
+        setState(() {
+          _easyRefreshController.finishLoad();
+        });
+      },
+      slivers: [_sliverAppBar(true), _sliverList()],
+    ));
+  }
+
+  NestedScrollView _nestedScrollView() {
+    return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             _sliverAppBar(innerBoxIsScrolled),
             _sliverList(),
-            SliverFixedExtentList(
-                delegate: _sliverChildListDelegate(), itemExtent: 50)
           ];
         },
-        body: SmartRefresher(
-          enablePullDown: true,
-          enablePullUp: true,
-          header: const ClassicHeader(),
-          controller: _refreshController,
-          physics: const BouncingScrollPhysics(),
-          onRefresh: () => _onRefreshComplete(),
-          onLoading: () => _onLoadMore(),
-          child: ListView.builder(
-            padding: const EdgeInsets.all(10),
-            itemBuilder: (BuildContext context, int index) {
-              return ElevatedButton(
-                onPressed: () => {},
-                child: Text(titleList[index]),
-              );
-            },
-            itemCount: titleList.length,
-          ),
-        ),
-      ),
+        body: _listView());
+  }
+
+  ListView _listView() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(10),
+      itemBuilder: (BuildContext context, int index) {
+        return ElevatedButton(
+          onPressed: () => {},
+          child: Text(titleList[index]),
+        );
+      },
+      itemCount: titleList.length,
     );
   }
 
@@ -132,31 +160,38 @@ class NestedScrollViewState extends State<NestedScrollViewPage> {
         height: 80,
         color: Colors.primaries[2],
       ),
+      Container(
+        height: 80,
+        color: Colors.primaries[3],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[4],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[5],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[6],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[7],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[8],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[9],
+      ),
+      Container(
+        height: 80,
+        color: Colors.primaries[10],
+      ),
     ]);
-  }
-
-  void _onRefreshComplete() async {
-    try {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      setState(() {});
-      _refreshController.refreshCompleted();
-    } catch (e) {}
-  }
-
-  void _onLoadMore() async {
-    try {
-      await Future.delayed(const Duration(milliseconds: 1000));
-      setState(() {
-        titleList.add("songzhi");
-        titleList.add("songzhi");
-        titleList.add("songzhi");
-        titleList.add("songzhi");
-        titleList.add("songzhi");
-        titleList.add("songzhi");
-        titleList.add("songzhi");
-        titleList.add("songzhi");
-      });
-      _refreshController.loadComplete();
-    } catch (e) {}
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
 import 'package:flutter_study/ui/widget_list.dart';
+import 'package:flutter_study/ui/xqax_home_page_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,6 +74,22 @@ class _MyHomePageState extends State<MyHomePage> {
                               builder: (context) => const WidgetListPage()))
                     },
                 child: const Text("跳转到list页面")),
+            ElevatedButton(
+                onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EasyRefreshPage()))
+                    },
+                child: const Text("easyRefresh")),
+            ElevatedButton(
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const XQAXHomePage()))
+                },
+                child: const Text("小仟安行Home")),
           ],
         ),
       ),
