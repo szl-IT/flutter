@@ -3,13 +3,14 @@ import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
 import 'package:flutter_study/ui/widget_list.dart';
 import 'package:flutter_study/ui/xqax_home_page_demo.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -84,12 +85,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text("easyRefresh")),
             ElevatedButton(
                 onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const XQAXHomePage()))
-                },
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const XQAXHomePage()))
+                    },
                 child: const Text("小仟安行Home")),
+            ElevatedButton(
+                onPressed: () => {
+                      Fluttertoast.showToast(
+                          msg: "zhssdf",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER)
+                    },
+                child: const Text("小仟安行H11ome")),
           ],
         ),
       ),

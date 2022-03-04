@@ -1,11 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 class XQAXHomePage extends StatefulWidget {
-  const XQAXHomePage({Key? key}) : super(key: key);
+  const XQAXHomePage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -14,8 +17,8 @@ class XQAXHomePage extends StatefulWidget {
 }
 
 class XQAXHomeState extends State<XQAXHomePage> {
-  late EasyRefreshController _easyRefreshController;
-  late ScrollController _scrollController;
+  EasyRefreshController _easyRefreshController;
+  ScrollController _scrollController;
 
   @override
   void initState() {
@@ -42,8 +45,8 @@ class XQAXHomeState extends State<XQAXHomePage> {
           slivers: [
             _buildSliverAppBar(),
             _buildSliverToBoxAdapter(),
-            _buildBannerSwiper(),
             _buildVideoView(),
+            // _buildBannerSwiper(),
             _buildListView(),
           ]),
     );
@@ -51,6 +54,9 @@ class XQAXHomeState extends State<XQAXHomePage> {
 
   SliverAppBar _buildSliverAppBar() {
     return SliverAppBar(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark),
       backgroundColor: Colors.white,
       leading: _buildContainer(),
       leadingWidth: 80,
@@ -85,13 +91,57 @@ class XQAXHomeState extends State<XQAXHomePage> {
         width: double.infinity,
         height: 150,
         color: const Color(0xFF203152),
-        child: const Center(
-          child: Text(
-            "沪A123456",
-            style: TextStyle(
-                color: Colors.orange,
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
+        child: Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("images/img_home__car_bg.png"),
+                  fit: BoxFit.fill)),
+          child: Container(
+            margin: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                const CircleAvatar(
+                  radius: 35,
+                  backgroundImage: NetworkImage(
+                      'https://pic2.zhimg.com/v2-639b49f2f6578eabddc458b84eb3c6a1.jpg'),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10, top: 10),
+                  alignment: Alignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "沪A123456",
+                        style: TextStyle(
+                            color: Color(0xffffd2aa),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 20),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: const [
+                            Icon(
+                              Icons.add_call,
+                              color: Colors.white,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child: Text(
+                                "宝马",
+                                style: TextStyle(color: Colors.white12),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -102,7 +152,7 @@ class XQAXHomeState extends State<XQAXHomePage> {
     return SliverToBoxAdapter(
         child: Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-      height: 100,
+      height: 80,
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -120,23 +170,21 @@ class XQAXHomeState extends State<XQAXHomePage> {
     ));
   }
 
-  SliverToBoxAdapter _buildBannerSwiper() {
-    return SliverToBoxAdapter(
-      child: Swiper(
-        itemCount: 3,
-        duration: 1000,
-        transformer: ScaleAndFadeTransformer(),
-        pagination: const SwiperPagination(),
-        control: const SwiperControl(),
-        itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.runoob.com%2Fcss%2Fcss-image-gallery.html&psig=AOvVaw11DREko-QaK0MZ3ZyNVLCy&ust=1646391339400000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPjXu-njqfYCFQAAAAAdAAAAABAD",
-            fit: BoxFit.fill,
-          );
-        },
-      ),
-    );
-  }
+  // SliverToBoxAdapter _buildBannerSwiper() {
+  //   return SliverToBoxAdapter(
+  //     child: Swiper(
+  //       itemCount: 3,
+  //       pagination: const SwiperPagination(),
+  //       autoplay: true,
+  //       itemBuilder: (BuildContext context, int index) {
+  //         return Image.network(
+  //           "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.runoob.com%2Fcss%2Fcss-image-gallery.html&psig=AOvVaw11DREko-QaK0MZ3ZyNVLCy&ust=1646391339400000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCPjXu-njqfYCFQAAAAAdAAAAABAD",
+  //           fit: BoxFit.cover,
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 
   SliverList _buildListView() {
     return SliverList(delegate: _sliverChildListDelegate());

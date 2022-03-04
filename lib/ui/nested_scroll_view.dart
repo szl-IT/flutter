@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NestedScrollViewPage extends StatefulWidget {
-  const NestedScrollViewPage({Key? key}) : super(key: key);
+  const NestedScrollViewPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

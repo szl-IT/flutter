@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class SingleChildScrollDemo extends StatefulWidget {
-  const SingleChildScrollDemo({Key? key}) : super(key: key);
+  const SingleChildScrollDemo({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -41,7 +41,7 @@ class SingleChildScrollState extends State<SingleChildScrollDemo> {
 }
 
 class SingleChildPages extends StatelessWidget {
-  const SingleChildPages({Key? key}) : super(key: key);
+  const SingleChildPages({Key key}) : super(key: key);
   final showValue =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class EasyRefreshPage extends StatefulWidget {
-  const EasyRefreshPage({Key? key}) : super(key: key);
+  const EasyRefreshPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,8 +13,8 @@ class EasyRefreshPage extends StatefulWidget {
 }
 
 class EasyRefreshState extends State<EasyRefreshPage> {
-  late EasyRefreshController _easyRefreshController;
-  late ScrollController _scrollController;
+  EasyRefreshController _easyRefreshController;
+  ScrollController _scrollController;
 
   @override
   void initState() {
