@@ -1,4 +1,7 @@
+
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study/remote/dio_manager/dio_manager.dart';
 import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
 import 'package:flutter_study/ui/widget_list.dart';
@@ -99,6 +102,31 @@ class _MyHomePageState extends State<MyHomePage> {
                           gravity: ToastGravity.CENTER)
                     },
                 child: const Text("小仟安行H11ome")),
+            ElevatedButton(
+                onPressed: () => {
+                      DioManager.instance
+                          .request("/article/list/0/json",
+                              method: DioMethod.get,
+                              data: {
+                                "username": "17630035658",
+                                "password": "szl201314"
+                              },
+                              onReceiveProgress: (value1, value2) => {
+                                    LogUtil.e(
+                                        "onReceiveProgress value==$value1,$value2",
+                                        tag: "szl")
+                                  },
+                              onSendProgress: (value1, value2) => {
+                                    LogUtil.e(
+                                        "onSendProgress value==$value1,$value2",
+                                        tag: "szl")
+                                  })
+                          .then((value) => LogUtil.e(value, tag: "szl"))
+                          .onError((error, stackTrace) =>
+                              LogUtil.e("onError error==$error", tag: "szl"))
+                          .whenComplete(() => LogUtil.e("complete", tag: "szl"))
+                    },
+                child: const Text("Dio 登录请求"))
           ],
         ),
       ),
