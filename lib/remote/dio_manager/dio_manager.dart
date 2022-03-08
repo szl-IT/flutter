@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flustars/flustars.dart';
+import 'package:flutter_study/remote/dio_manager/base_reponse.dart';
 import 'package:flutter_study/remote/dio_manager/dio_interceptors.dart';
 import 'package:flutter_study/remote/network/base_api_service.dart';
+import 'package:flutter_study/remote/network/base_exception.dart';
 
 enum DioMethod {
   get,
@@ -44,6 +48,20 @@ class DioManager {
     return _instance;
   }
 
+  static Future<T> post<T>(String path, {dynamic data}) async {
+    try {
+      var response = await DioManager.instance._dio
+          .post(BaseApiService().baseUrl + path, data: data);
+      var baseResponse = BaseResponse.fromJson(response.data);
+      LogUtil.e("base reponse========" + json.encode(baseResponse.toJson()),
+          tag: "szl");
+      ApiException.handlerException(baseResponse);
+      return BaseResponse<T>.fromJson(baseResponse.toJson()).data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // 请求类
   Future<T> request<T>(
     String path, {
@@ -64,12 +82,12 @@ class DioManager {
       DioMethod.head: 'head'
     };
     options ??= Options(method: _methodValues[method]);
-    if (_methodValues[method] == "post") {
-      options.headers = {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      };
-    }
+    // if (_methodValues[method] == "post") {
+    //   options.headers = {
+    //     "Content-Type": "application/json",
+    //     "Accept": "application/json"
+    //   };
+    // }
     try {
       Response response;
       response = await _dio.request(path,

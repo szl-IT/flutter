@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 
 //cookie 拦截器 添加cookie
 class DioTokenInterceptors extends Interceptor {
@@ -11,7 +10,6 @@ class DioTokenInterceptors extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    LogUtil.e("reponse status==$response", tag: "szl");
     super.onResponse(response, handler);
   }
 
@@ -24,7 +22,23 @@ class DioTokenInterceptors extends Interceptor {
 class DioExceptionInterceptors extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    super.onResponse(response, handler);
+    switch (response.statusCode) {
+      case 200:
+        handler.next(response);
+        break;
+      case 400:
+        throw BadRequestException(response.toString());
+      case 401:
+      case 403:
+        throw UnauthorisedException(response.toString());
+      case 404:
+        throw UnauthorisedException(response.toString());
+      case 500:
+      default:
+        throw FetchDataException(
+            'Error occured while communication with server' +
+                ' with status code : ${response.statusCode}');
+    }
   }
 
   @override
@@ -45,4 +59,32 @@ class DioExceptionInterceptors extends Interceptor {
     }
     super.onError(err, handler);
   }
+}
+
+class AppException implements Exception {
+  final _message;
+  final _prefix;
+
+  AppException([this._message, this._prefix]);
+
+  String toString() {
+    return "$_prefix$_message";
+  }
+}
+
+class FetchDataException extends AppException {
+  FetchDataException([String message])
+      : super(message, "Error During Communication: ");
+}
+
+class BadRequestException extends AppException {
+  BadRequestException([message]) : super(message, "Invalid Request: ");
+}
+
+class UnauthorisedException extends AppException {
+  UnauthorisedException([message]) : super(message, "Unauthorised Request: ");
+}
+
+class InvalidInputException extends AppException {
+  InvalidInputException([String message]) : super(message, "Invalid Input: ");
 }

@@ -1,11 +1,11 @@
-
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study/remote/dio_manager/dio_manager.dart';
 import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
+import 'package:flutter_study/ui/wan_android/ui/login.dart';
+import 'package:flutter_study/ui/wan_android/ui/register.dart';
 import 'package:flutter_study/ui/widget_list.dart';
 import 'package:flutter_study/ui/xqax_home_page_demo.dart';
+import 'package:flutter_study/widget/loading_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
@@ -50,7 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -104,29 +105,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text("小仟安行H11ome")),
             ElevatedButton(
                 onPressed: () => {
-                      DioManager.instance
-                          .request("/article/list/0/json",
-                              method: DioMethod.get,
-                              data: {
-                                "username": "17630035658",
-                                "password": "szl201314"
-                              },
-                              onReceiveProgress: (value1, value2) => {
-                                    LogUtil.e(
-                                        "onReceiveProgress value==$value1,$value2",
-                                        tag: "szl")
-                                  },
-                              onSendProgress: (value1, value2) => {
-                                    LogUtil.e(
-                                        "onSendProgress value==$value1,$value2",
-                                        tag: "szl")
-                                  })
-                          .then((value) => LogUtil.e(value, tag: "szl"))
-                          .onError((error, stackTrace) =>
-                              LogUtil.e("onError error==$error", tag: "szl"))
-                          .whenComplete(() => LogUtil.e("complete", tag: "szl"))
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()))
                     },
-                child: const Text("Dio 登录请求"))
+                child: const Text("Dio 登录请求")),
+            ElevatedButton(
+                onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoadingPage()))
+                    },
+                child: const Text("注册")),
           ],
         ),
       ),
