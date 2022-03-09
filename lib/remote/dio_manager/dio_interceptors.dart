@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_study/remote/network/base_exception.dart';
 
-//cookie 拦截器 添加cookie
+///cookie 拦截器 添加cookie
 class DioTokenInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -19,6 +20,7 @@ class DioTokenInterceptors extends Interceptor {
   }
 }
 
+///异常拦截器
 class DioExceptionInterceptors extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
@@ -27,64 +29,24 @@ class DioExceptionInterceptors extends Interceptor {
         handler.next(response);
         break;
       case 400:
-        throw BadRequestException(response.toString());
+        throw BadRequestException(400);
       case 401:
+        throw UnauthorisedException(401);
       case 403:
-        throw UnauthorisedException(response.toString());
+        throw UnauthorisedException(403);
       case 404:
-        throw UnauthorisedException(response.toString());
+        throw UnauthorisedException(404);
       case 500:
       default:
         throw FetchDataException(
-            'Error occured while communication with server' +
-                ' with status code : ${response.statusCode}');
+            response.statusCode,
+            'Error occured while communication with server'
+            ' with status code : ${response.statusCode}');
     }
   }
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    switch (err.type) {
-      case DioErrorType.connectTimeout:
-        break;
-      case DioErrorType.sendTimeout:
-        break;
-      case DioErrorType.receiveTimeout:
-        break;
-      case DioErrorType.response:
-        break;
-      case DioErrorType.cancel:
-        break;
-      case DioErrorType.other:
-        break;
-    }
-    super.onError(err, handler);
+    throw err;
   }
-}
-
-class AppException implements Exception {
-  final _message;
-  final _prefix;
-
-  AppException([this._message, this._prefix]);
-
-  String toString() {
-    return "$_prefix$_message";
-  }
-}
-
-class FetchDataException extends AppException {
-  FetchDataException([String message])
-      : super(message, "Error During Communication: ");
-}
-
-class BadRequestException extends AppException {
-  BadRequestException([message]) : super(message, "Invalid Request: ");
-}
-
-class UnauthorisedException extends AppException {
-  UnauthorisedException([message]) : super(message, "Unauthorised Request: ");
-}
-
-class InvalidInputException extends AppException {
-  InvalidInputException([String message]) : super(message, "Invalid Input: ");
 }

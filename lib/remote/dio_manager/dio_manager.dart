@@ -1,20 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter_study/remote/dio_manager/base_reponse.dart';
 import 'package:flutter_study/remote/dio_manager/dio_interceptors.dart';
 import 'package:flutter_study/remote/network/base_api_service.dart';
 import 'package:flutter_study/remote/network/base_exception.dart';
 
-enum DioMethod {
-  get,
-  post,
-  put,
-  delete,
-  patch,
-  head,
-}
+///请求成功回调
+typedef Success = void Function(dynamic data);
+
+///请求失败回调
+typedef Failed = void Function(ApiException exception);
 
 class DioManager {
   factory DioManager() => _getInstance();
@@ -48,58 +44,40 @@ class DioManager {
     return _instance;
   }
 
-  static Future<T> post<T>(String path, {dynamic data}) async {
+  ///post 请求
+  static post(String path, Success success, Failed failed,
+      {dynamic data}) async {
     try {
       var response = await DioManager.instance._dio
           .post(BaseApiService().baseUrl + path, data: data);
       var baseResponse = BaseResponse.fromJson(response.data);
-      LogUtil.e("base reponse========" + json.encode(baseResponse.toJson()),
-          tag: "szl");
-      ApiException.handlerException(baseResponse);
-      return BaseResponse<T>.fromJson(baseResponse.toJson()).data;
+      ApiException.handlerServerException(baseResponse);
+      success(json.decode(json.encode(baseResponse.data)));
     } catch (e) {
-      rethrow;
+      if (e is ApiException) {
+        failed(e);
+      } else {
+        failed(ApiException.handlerOtherException(e));
+      }
     }
   }
 
-  // 请求类
-  Future<T> request<T>(
-    String path, {
-    DioMethod method = DioMethod.get,
-    Map<String, dynamic> params,
-    data,
-    CancelToken cancelToken,
-    Options options,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
-  }) async {
-    const _methodValues = {
-      DioMethod.get: 'get',
-      DioMethod.post: 'post',
-      DioMethod.put: 'put',
-      DioMethod.delete: 'delete',
-      DioMethod.patch: 'patch',
-      DioMethod.head: 'head'
-    };
-    options ??= Options(method: _methodValues[method]);
-    // if (_methodValues[method] == "post") {
-    //   options.headers = {
-    //     "Content-Type": "application/json",
-    //     "Accept": "application/json"
-    //   };
-    // }
+  ///get 请求
+  static get(String path, Success success, Failed failed,
+      Map<String, dynamic> queryParameters) async {
     try {
-      Response response;
-      response = await _dio.request(path,
-          data: data,
-          queryParameters: params,
-          cancelToken: cancelToken,
-          options: options,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress);
-      return response.data;
-    } on DioError {
-      rethrow;
+      var response = await DioManager.instance._dio.get(
+          BaseApiService().baseUrl + path,
+          queryParameters: queryParameters);
+      var baseResponse = BaseResponse.fromJson(response.data);
+      ApiException.handlerServerException(baseResponse);
+      success(json.decode(json.encode(baseResponse.data)));
+    } catch (e) {
+      if (e is ApiException) {
+        failed(e);
+      } else {
+        failed(ApiException.handlerOtherException(e));
+      }
     }
   }
 }
