@@ -1,9 +1,5 @@
-import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_study/remote/dio_manager/dio_manager.dart';
-import 'package:flutter_study/remote/network/api_end_points.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -73,30 +69,7 @@ class RegisterState extends State<RegisterPage> {
                   ))
                 ],
               ),
-              ElevatedButton(
-                  onPressed: () => {
-                        DioManager.instance
-                            .request(
-                              ApiEndPoints.register,
-                              method: DioMethod.post,
-                              data: FormData.fromMap({
-                                "username":
-                                    userNameEditController.text.toString(),
-                                "password":
-                                    passwordEditController.text.toString(),
-                                "repassword": confirmPasswordEditController.text
-                                    .toString()
-                              }),
-                            )
-                            .then((value) => {LogUtil.e(value, tag: "szl")})
-                            .whenComplete(
-                                () => {LogUtil.e("complete", tag: "szl")})
-                            .onError((error, stackTrace) => {
-                                  LogUtil.e("error" + error.toString(),
-                                      tag: "szl")
-                                })
-                      },
-                  child: const Text("登录"))
+              ElevatedButton(onPressed: () => {}, child: const Text("登录"))
             ],
           ),
         ));

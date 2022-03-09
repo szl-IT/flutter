@@ -1,27 +1,3 @@
-class UserBean {
-  UserData data;
-  int errorCode;
-  String errorMsg;
-
-  UserBean({UserData userData, int errorCode, String errorMsg});
-
-  UserBean.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? UserData.fromJson(json['data']) : null;
-    errorCode = json['errorCode'];
-    errorMsg = json['errorMsg'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    data['errorCode'] = errorCode;
-    data['errorMsg'] = errorMsg;
-    return data;
-  }
-}
-
 class UserData {
   bool admin;
   List<dynamic> chapterTops;

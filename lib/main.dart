@@ -1,8 +1,11 @@
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
+import 'package:flutter_study/ui/wan_android/sp_const.dart';
+import 'package:flutter_study/ui/wan_android/ui/home.dart';
 import 'package:flutter_study/ui/wan_android/ui/login.dart';
-import 'package:flutter_study/ui/wan_android/ui/register.dart';
 import 'package:flutter_study/ui/widget_list.dart';
 import 'package:flutter_study/ui/xqax_home_page_demo.dart';
 import 'package:flutter_study/widget/loading_widget.dart';
@@ -10,6 +13,24 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
   runApp(const MyApp());
+  configLoading();
+}
+
+///easy_loading 初始化
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
 }
 
 class MyApp extends StatelessWidget {
@@ -19,10 +40,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      initialRoute: '/',
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/home': (context) => const HomePage()
+      },
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      builder: EasyLoading.init(),
     );
   }
 }
@@ -105,10 +132,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text("小仟安行H11ome")),
             ElevatedButton(
                 onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()))
+                      LogUtil.e("sputil===" + SpUtil.getString(SPConst.cookie),
+                          tag: "szl"),
+                      if (SpUtil.getString(SPConst.cookie).isNotEmpty)
+                        {Navigator.pushNamed(context, '/home')}
+                      else
+                        {Navigator.pushNamed(context, "/login")}
                     },
                 child: const Text("Dio 登录请求")),
             ElevatedButton(

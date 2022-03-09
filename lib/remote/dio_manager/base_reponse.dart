@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class BaseResponse<T> {
   int errorCode;
   String errorMsg;
@@ -10,4 +12,10 @@ class BaseResponse<T> {
 
   Map<String, dynamic> toJson() =>
       {"errorCode": errorCode, "errorMsg": errorMsg, "data": data};
+
+  @override
+  String toString() {
+    return json
+        .encode({"errorCode": errorCode, "errorMsg": errorMsg, "T": data});
+  }
 }

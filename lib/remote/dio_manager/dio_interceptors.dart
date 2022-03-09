@@ -1,5 +1,8 @@
+
 import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter_study/remote/network/base_exception.dart';
+import 'package:flutter_study/ui/wan_android/sp_const.dart';
 
 ///cookie 拦截器 添加cookie
 class DioTokenInterceptors extends Interceptor {
@@ -11,6 +14,16 @@ class DioTokenInterceptors extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
+    // 保存cookie
+    var tokenPass = "";
+    response.headers.map["set-cookie"].asMap().forEach((key, value) {
+      if (value.contains("token_pass_wanandroid_com")) {
+        tokenPass = value.split(";").toString().split("=")[1];
+      }
+    });
+    if (tokenPass.isNotEmpty && tokenPass != SpUtil.getString(SPConst.cookie)) {
+      SpUtil.putString(SPConst.cookie, tokenPass);
+    }
     super.onResponse(response, handler);
   }
 
