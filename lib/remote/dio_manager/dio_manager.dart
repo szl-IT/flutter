@@ -56,7 +56,7 @@ class DioManager {
     } catch (e) {
       if (e is ApiException) {
         failed(e);
-      } else {
+      } else if (e is Exception) {
         failed(ApiException.handlerOtherException(e));
       }
     }
@@ -75,7 +75,7 @@ class DioManager {
     } catch (e) {
       if (e is ApiException) {
         failed(e);
-      } else {
+      } else if (e is Exception) {
         failed(ApiException.handlerOtherException(e));
       }
     }

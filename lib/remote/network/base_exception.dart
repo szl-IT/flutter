@@ -19,7 +19,7 @@ class ApiException implements Exception {
   }
 
   ///根据不同的错误类型定义不同的code 和msg 目前暂未对类型做出处理
-  static handlerOtherException(Exception? exception) {
+  static handlerOtherException(Exception exception) {
     if (exception is ApiException) {
       return ApiException(exception.errorCode, exception.errorMsg);
     } else if (exception is SocketException) {
