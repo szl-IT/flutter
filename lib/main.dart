@@ -1,6 +1,9 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_study/animition/animation_demo.dart';
+import 'package:flutter_study/animition/animation_hero.dart';
+import 'package:flutter_study/animition/animation_stagger.dart';
 import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
 import 'package:flutter_study/ui/wan_android/sp_const.dart';
@@ -43,7 +46,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/login': (context) => const LoginPage(),
-        '/home': (context) => const HomePage()
+        '/home': (context) => const HomePage(),
+        '/animation': (context) => const AnimationPage(),
+        '/hero': (context) => const HeroAnimationPage(),
+        '/hero/detail': (context) => const HeroDetailPage(),
+        '/stagger': (context) => const StaggerAnimationPage()
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -85,9 +92,19 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return ScaleTransition(
+                  child: child,
+                  scale: animation,
+                );
+              },
+              child: Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headline4,
+                key: ValueKey<int>(_counter),
+              ),
             ),
             ElevatedButton(
                 onPressed: () => {
@@ -148,6 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               builder: (context) => const LoadingPage()))
                     },
                 child: const Text("注册")),
+            ElevatedButton(
+                onPressed: () => {Navigator.pushNamed(context, "/stagger")},
+                child: const Text("动画")),
           ],
         ),
       ),
