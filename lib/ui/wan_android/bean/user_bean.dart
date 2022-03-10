@@ -1,16 +1,16 @@
 class UserData {
-  bool admin;
-  List<dynamic> chapterTops;
-  List<int> collectIds;
-  String email;
-  String icon;
-  int id;
-  String nickname;
-  String password;
-  String publicName;
-  String token;
-  int type;
-  String username;
+  bool? admin;
+  List<dynamic>? chapterTops;
+  List<int>? collectIds;
+  String? email;
+  String? icon;
+  int? id;
+  String? nickname;
+  String? password;
+  String? publicName;
+  String? token;
+  int? type;
+  String? username;
 
   UserData(
       {this.admin,
@@ -31,7 +31,7 @@ class UserData {
     if (json['chapterTops'] != null) {
       chapterTops = [];
       json['chapterTops'].forEach((v) {
-        chapterTops.add(v);
+        chapterTops?.add(v);
       });
     }
     collectIds = json['collectIds'].cast<int>();
@@ -50,7 +50,7 @@ class UserData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['admin'] = admin;
     if (chapterTops != null) {
-      data['chapterTops'] = chapterTops.map((v) => v.toJson()).toList();
+      data['chapterTops'] = chapterTops?.map((v) => v.toJson()).toList();
     }
     data['collectIds'] = collectIds;
     data['email'] = email;

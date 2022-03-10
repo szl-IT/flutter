@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_study/animition/animation_demo.dart';
 import 'package:flutter_study/animition/animation_hero.dart';
 import 'package:flutter_study/animition/animation_stagger.dart';
+import 'package:flutter_study/customview/customview_demo.dart';
 import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
 import 'package:flutter_study/ui/wan_android/sp_const.dart';
@@ -37,7 +38,7 @@ void configLoading() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
         '/animation': (context) => const AnimationPage(),
         '/hero': (context) => const HeroAnimationPage(),
         '/hero/detail': (context) => const HeroDetailPage(),
-        '/stagger': (context) => const StaggerAnimationPage()
+        '/stagger': (context) => const StaggerAnimationPage(),
+        '/custom': (context) => const CustomViewPage()
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -62,8 +64,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -82,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title ?? ""),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -149,9 +151,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text("小仟安行H11ome")),
             ElevatedButton(
                 onPressed: () => {
-                      LogUtil.e("sputil===" + SpUtil.getString(SPConst.cookie),
+                      LogUtil.e(
+                          "sputil===${SpUtil.getString(SPConst.cookie, defValue: "")}",
                           tag: "szl"),
-                      if (SpUtil.getString(SPConst.cookie).isNotEmpty)
+                      if (SpUtil.getString(SPConst.cookie)?.isNotEmpty == true)
                         {Navigator.pushNamed(context, '/home')}
                       else
                         {Navigator.pushNamed(context, "/login")}
@@ -168,6 +171,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: () => {Navigator.pushNamed(context, "/stagger")},
                 child: const Text("动画")),
+            ElevatedButton(
+                onPressed: () => {Navigator.pushNamed(context, "/custom")},
+                child: const Text("自定义动画")),
           ],
         ),
       ),

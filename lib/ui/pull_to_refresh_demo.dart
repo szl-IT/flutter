@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PullToRefreshPage extends StatefulWidget {
-  const PullToRefreshPage({Key key}) : super(key: key);
+  const PullToRefreshPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

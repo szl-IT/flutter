@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 ///交织动画  多个动画效果叠加混合使用
 class StaggerAnimationPage extends StatefulWidget {
-  const StaggerAnimationPage({Key key}) : super(key: key);
+  const StaggerAnimationPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -14,16 +14,16 @@ class StaggerAnimationPage extends StatefulWidget {
 class StaggerAnimationState extends State<StaggerAnimationPage>
     with SingleTickerProviderStateMixin {
   ///高度动画
-  Animation<double> heightAnimation;
+  late Animation<double> heightAnimation;
 
   /// 颜色动画
-  Animation<Color> colorAnimation;
+  late Animation<Color?> colorAnimation;
 
-  Animation<EdgeInsets> paddingAnimation;
-  Animation<EdgeInsets> paddingTopAnimation;
+  late Animation<EdgeInsets> paddingAnimation;
+  late Animation<EdgeInsets> paddingTopAnimation;
 
   ///动画控制器
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
   @override
   void initState() {

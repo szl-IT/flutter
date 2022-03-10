@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class EasyRefreshPage extends StatefulWidget {
-  const EasyRefreshPage({Key key}) : super(key: key);
+  const EasyRefreshPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,8 +13,8 @@ class EasyRefreshPage extends StatefulWidget {
 }
 
 class EasyRefreshState extends State<EasyRefreshPage> {
-  EasyRefreshController _easyRefreshController;
-  ScrollController _scrollController;
+  late EasyRefreshController? _easyRefreshController;
+  late ScrollController? _scrollController;
 
   @override
   void initState() {
@@ -26,8 +26,8 @@ class EasyRefreshState extends State<EasyRefreshPage> {
   @override
   void dispose() {
     super.dispose();
-    _easyRefreshController.dispose();
-    _scrollController.dispose();
+    _easyRefreshController?.dispose();
+    _scrollController?.dispose();
   }
 
   var titleList = [
@@ -64,13 +64,13 @@ class EasyRefreshState extends State<EasyRefreshPage> {
       onRefresh: () async {
         await Future.delayed(const Duration(milliseconds: 1000));
         setState(() {
-          _easyRefreshController.finishRefresh();
+          _easyRefreshController?.finishRefresh();
         });
       },
       onLoad: () async {
         await Future.delayed(const Duration(milliseconds: 1000));
         setState(() {
-          _easyRefreshController.finishLoad();
+          _easyRefreshController?.finishLoad();
         });
       },
       slivers: [_sliverAppBar(true), _sliverList()],

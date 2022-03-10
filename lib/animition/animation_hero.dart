@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 ///hero 动画演示
 class HeroAnimationPage extends StatelessWidget {
-  const HeroAnimationPage({Key key}) : super(key: key);
+  const HeroAnimationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class HeroAnimationPage extends StatelessWidget {
 }
 
 class HeroDetailPage extends StatelessWidget {
-  const HeroDetailPage({Key key}) : super(key: key);
+  const HeroDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

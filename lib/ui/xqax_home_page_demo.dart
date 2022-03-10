@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class XQAXHomePage extends StatefulWidget {
-  const XQAXHomePage({Key key}) : super(key: key);
+  const XQAXHomePage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -17,8 +17,8 @@ class XQAXHomePage extends StatefulWidget {
 }
 
 class XQAXHomeState extends State<XQAXHomePage> {
-  EasyRefreshController _easyRefreshController;
-  ScrollController _scrollController;
+  late EasyRefreshController? _easyRefreshController;
+  late ScrollController? _scrollController;
 
   @override
   void initState() {
@@ -30,8 +30,8 @@ class XQAXHomeState extends State<XQAXHomePage> {
   @override
   void dispose() {
     super.dispose();
-    _easyRefreshController.dispose();
-    _scrollController.dispose();
+    _easyRefreshController?.dispose();
+    _scrollController?.dispose();
   }
 
   @override
@@ -40,7 +40,7 @@ class XQAXHomeState extends State<XQAXHomePage> {
       child: EasyRefresh.custom(
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 1));
-            _easyRefreshController.finishRefresh();
+            _easyRefreshController?.finishRefresh();
           },
           slivers: [
             _buildSliverAppBar(),

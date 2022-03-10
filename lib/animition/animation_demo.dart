@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 ///动画练习
 class AnimationPage extends StatefulWidget {
-  const AnimationPage({Key key}) : super(key: key);
+  const AnimationPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,8 +13,8 @@ class AnimationPage extends StatefulWidget {
 
 class AnimationState extends State<AnimationPage>
     with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController _animationController;
+  late Animation<double> animation;
+  late AnimationController _animationController;
 
   @override
   void initState() {

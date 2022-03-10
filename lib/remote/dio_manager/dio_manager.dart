@@ -10,20 +10,20 @@ import 'package:flutter_study/remote/network/base_exception.dart';
 typedef Success = void Function(dynamic data);
 
 ///请求失败回调
-typedef Failed = void Function(ApiException exception);
+typedef Failed = void Function(ApiException? exception);
 
 class DioManager {
-  factory DioManager() => _getInstance();
+  factory DioManager() => _getInstance() ?? DioManager();
 
-  static DioManager get instance => _getInstance();
-  static DioManager _instance;
+  static DioManager? get instance => _getInstance();
+  static DioManager? _instance;
 
 // 连接超时时间
   static const int connectTimeout = 60 * 1000;
 
 // 响应超时时间
   static const int receiveTimeout = 60 * 1000;
-  Dio _dio;
+  Dio? _dio;
 
   DioManager._init() {
     if (_dio == null) {
@@ -32,14 +32,14 @@ class DioManager {
           connectTimeout: connectTimeout,
           receiveTimeout: receiveTimeout);
       _dio = Dio(options);
-      _dio.interceptors.add(DioTokenInterceptors());
-      _dio.interceptors.add(DioExceptionInterceptors());
-      _dio.interceptors
+      _dio?.interceptors.add(DioTokenInterceptors());
+      _dio?.interceptors.add(DioExceptionInterceptors());
+      _dio?.interceptors
           .add(LogInterceptor(responseBody: true, requestBody: true));
     }
   }
 
-  static DioManager _getInstance() {
+  static DioManager? _getInstance() {
     _instance ??= DioManager._init();
     return _instance;
   }
@@ -48,9 +48,9 @@ class DioManager {
   static post(String path, Success success, Failed failed,
       {dynamic data}) async {
     try {
-      var response = await DioManager.instance._dio
-          .post(BaseApiService().baseUrl + path, data: data);
-      var baseResponse = BaseResponse.fromJson(response.data);
+      var response = await DioManager.instance?._dio
+          ?.post(BaseApiService().baseUrl + path, data: data);
+      var baseResponse = BaseResponse.fromJson(response?.data);
       ApiException.handlerServerException(baseResponse);
       success(json.decode(json.encode(baseResponse.data)));
     } catch (e) {
@@ -66,10 +66,10 @@ class DioManager {
   static get(String path, Success success, Failed failed,
       Map<String, dynamic> queryParameters) async {
     try {
-      var response = await DioManager.instance._dio.get(
+      var response = await DioManager.instance?._dio?.get(
           BaseApiService().baseUrl + path,
           queryParameters: queryParameters);
-      var baseResponse = BaseResponse.fromJson(response.data);
+      var baseResponse = BaseResponse.fromJson(response?.data);
       ApiException.handlerServerException(baseResponse);
       success(json.decode(json.encode(baseResponse.data)));
     } catch (e) {

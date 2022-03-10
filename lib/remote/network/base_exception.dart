@@ -11,14 +11,15 @@ class ApiException implements Exception {
   ApiException(this.errorCode, this.errorMsg);
 
   ///处理服务器返回失败的异常
-  static handlerServerException(BaseResponse baseResponse) {
-    if (baseResponse.errorCode != 0 && baseResponse.errorCode != 200) {
-      throw ApiException(baseResponse.errorCode, baseResponse.errorMsg);
+  static handlerServerException(BaseResponse? baseResponse) {
+    if (baseResponse?.errorCode != 0 && baseResponse?.errorCode != 200) {
+      throw ApiException(
+          baseResponse?.errorCode ?? -1, baseResponse?.errorMsg ?? "失败");
     }
   }
 
   ///根据不同的错误类型定义不同的code 和msg 目前暂未对类型做出处理
-  static handlerOtherException(Exception exception) {
+  static handlerOtherException(Exception? exception) {
     if (exception is ApiException) {
       return ApiException(exception.errorCode, exception.errorMsg);
     } else if (exception is SocketException) {
@@ -49,8 +50,8 @@ class ApiException implements Exception {
 }
 
 class FetchDataException extends ApiException {
-  FetchDataException(int errorCode, String errorMsg)
-      : super(errorCode, errorMsg);
+  FetchDataException(int? errorCode, String? errorMsg)
+      : super(errorCode ?? -1, errorMsg ?? "失败");
 }
 
 class BadRequestException extends ApiException {

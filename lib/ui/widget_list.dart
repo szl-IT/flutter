@@ -3,7 +3,7 @@ import 'package:flutter_study/ui/nested_scroll_view.dart';
 import 'package:flutter_study/ui/pull_to_refresh_demo.dart';
 
 class WidgetListPage extends StatefulWidget {
-  const WidgetListPage({Key key}) : super(key: key);
+  const WidgetListPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

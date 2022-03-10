@@ -16,7 +16,7 @@ class DioTokenInterceptors extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // 保存cookie
     var tokenPass = "";
-    response.headers.map["set-cookie"].asMap().forEach((key, value) {
+    response.headers.map["set-cookie"]?.asMap().forEach((key, value) {
       if (value.contains("token_pass_wanandroid_com")) {
         tokenPass = value.split(";").toString().split("=")[1];
       }

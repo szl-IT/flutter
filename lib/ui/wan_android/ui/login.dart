@@ -8,7 +8,7 @@ import 'package:flutter_study/ui/wan_android/view_model/login_vm.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
 }
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key key}) : super(key: key);
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
