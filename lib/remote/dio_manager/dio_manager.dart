@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_study/remote/dio_manager/base_reponse.dart';
 import 'package:flutter_study/remote/dio_manager/dio_interceptors.dart';
 import 'package:flutter_study/remote/network/base_api_service.dart';
@@ -54,6 +55,7 @@ class DioManager {
       ApiException.handlerServerException(baseResponse);
       success(json.decode(json.encode(baseResponse.data)));
     } catch (e) {
+      ErrorWidget.builder(FlutterErrorDetails(exception: e));
       if (e is ApiException) {
         failed(e);
       } else if (e is Exception) {

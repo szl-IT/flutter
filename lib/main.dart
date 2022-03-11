@@ -16,6 +16,9 @@ import 'package:flutter_study/widget/loading_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
+  // FlutterError.onError = (FlutterErrorDetails details) {
+  //   reportError(details);
+  // };
   runApp(const MyApp());
   configLoading();
 }
@@ -146,7 +149,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Fluttertoast.showToast(
                           msg: "zhssdf",
                           toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.CENTER)
+                          gravity: ToastGravity.CENTER),
+                      debugPrint("我是debugPrint"),
                     },
                 child: const Text("小仟安行H11ome")),
             ElevatedButton(

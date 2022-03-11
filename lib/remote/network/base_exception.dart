@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_study/remote/dio_manager/base_reponse.dart';
 
+///异常类 统一处理异常 [handlerOtherException]
 class ApiException implements Exception {
   int errorCode;
   String errorMsg;
@@ -11,6 +12,7 @@ class ApiException implements Exception {
   ApiException(this.errorCode, this.errorMsg);
 
   ///处理服务器返回失败的异常
+  ///处理其他的异常[handlerOtherException]
   static handlerServerException(BaseResponse? baseResponse) {
     if (baseResponse?.errorCode != 0 && baseResponse?.errorCode != 200) {
       throw ApiException(
