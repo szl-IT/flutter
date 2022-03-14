@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/customview/view/my_view.dart';
 
+import 'view/water_drop.dart';
+
 class CustomViewPage extends StatefulWidget {
   const CustomViewPage({Key? key}) : super(key: key);
 
@@ -51,7 +53,14 @@ class MyViewState extends State<CustomViewPage>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("自定义View"),
+          title: WaterDrop(
+            params: [WaterDropParam(top: 6, height: 40, left: 6, width: 80)],
+            child: Container(
+              color: Colors.blue,
+              padding: const EdgeInsets.all(16),
+              child: const Text('Water drop'),
+            ),
+          ),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
           return AnimatedBuilder(
@@ -62,7 +71,7 @@ class MyViewState extends State<CustomViewPage>
                   alignment: Alignment.center,
                   child: Center(
                       child: CustomPaint(
-                    painter: MyView(),
+                    painter: MyView(animation.value),
                   )),
                 );
               });

@@ -1,4 +1,5 @@
 import 'package:flustars/flustars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_study/animition/animation_demo.dart';
@@ -16,9 +17,6 @@ import 'package:flutter_study/widget/loading_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
-  // FlutterError.onError = (FlutterErrorDetails details) {
-  //   reportError(details);
-  // };
   runApp(const MyApp());
   configLoading();
 }
@@ -97,14 +95,24 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return ScaleTransition(
-                  child: child,
-                  scale: animation,
-                );
-              },
+            Transform.scale(
+              alignment: Alignment.center,
+              scale: 1,
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                color: Colors.red,
+                child: Transform.scale(
+                  alignment: Alignment.center,
+                  scale: 1.5,
+                  child: const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                ),
+              ),
+            ),
+            Transform.scale(
+              alignment: Alignment.center,
+              scale: 1.5,
               child: Text(
                 '$_counter',
                 style: Theme.of(context).textTheme.headline4,
