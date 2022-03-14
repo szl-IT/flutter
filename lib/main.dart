@@ -6,6 +6,7 @@ import 'package:flutter_study/animition/animation_demo.dart';
 import 'package:flutter_study/animition/animation_hero.dart';
 import 'package:flutter_study/animition/animation_stagger.dart';
 import 'package:flutter_study/customview/customview_demo.dart';
+import 'package:flutter_study/ui/bottom_navigation_bar.dart';
 import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
 import 'package:flutter_study/ui/wan_android/sp_const.dart';
@@ -53,7 +54,8 @@ class MyApp extends StatelessWidget {
         '/hero': (context) => const HeroAnimationPage(),
         '/hero/detail': (context) => const HeroDetailPage(),
         '/stagger': (context) => const StaggerAnimationPage(),
-        '/custom': (context) => const CustomViewPage()
+        '/custom': (context) => const CustomViewPage(),
+        '/bottomNavigation': (context) => const BottomNavigationBarPage()
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -186,6 +188,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: () => {Navigator.pushNamed(context, "/custom")},
                 child: const Text("自定义动画")),
+            ElevatedButton(
+                onPressed: () =>
+                    {Navigator.pushNamed(context, "/bottomNavigation")},
+                child: const Text("bottomNavigation"))
           ],
         ),
       ),
