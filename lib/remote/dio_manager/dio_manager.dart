@@ -66,7 +66,7 @@ class DioManager {
 
   ///get 请求
   static get(String path, Success success, Failed failed,
-      Map<String, dynamic> queryParameters) async {
+      {Map<String, dynamic>? queryParameters}) async {
     try {
       var response = await DioManager.instance?._dio?.get(
           BaseApiService().baseUrl + path,
