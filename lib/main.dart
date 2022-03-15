@@ -12,6 +12,7 @@ import 'package:flutter_study/ui/sigle_child_scroller.dart';
 import 'package:flutter_study/ui/wan_android/sp_const.dart';
 import 'package:flutter_study/ui/wan_android/ui/home.dart';
 import 'package:flutter_study/ui/wan_android/ui/login.dart';
+import 'package:flutter_study/ui/wan_android/ui/wan_main.dart';
 import 'package:flutter_study/ui/widget_list.dart';
 import 'package:flutter_study/ui/xqax_home_page_demo.dart';
 import 'package:flutter_study/widget/loading_widget.dart';
@@ -55,7 +56,8 @@ class MyApp extends StatelessWidget {
         '/hero/detail': (context) => const HeroDetailPage(),
         '/stagger': (context) => const StaggerAnimationPage(),
         '/custom': (context) => const CustomViewPage(),
-        '/bottomNavigation': (context) => const BottomNavigationBarPage()
+        '/bottomNavigation': (context) => const BottomNavigationBarPage(),
+        '/wan_android': (context) => const WanMainPage()
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -191,7 +193,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: () =>
                     {Navigator.pushNamed(context, "/bottomNavigation")},
-                child: const Text("bottomNavigation"))
+                child: const Text("bottomNavigation")),
+            ElevatedButton(
+                onPressed: () => {Navigator.pushNamed(context, "/wan_android")},
+                child: const Text("玩安卓首页"))
           ],
         ),
       ),
