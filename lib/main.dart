@@ -1,11 +1,11 @@
 import 'package:flustars/flustars.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_study/animition/animation_demo.dart';
 import 'package:flutter_study/animition/animation_hero.dart';
 import 'package:flutter_study/animition/animation_stagger.dart';
 import 'package:flutter_study/customview/customview_demo.dart';
+import 'package:flutter_study/mytest/test_state_manager.dart';
 import 'package:flutter_study/ui/bottom_navigation_bar.dart';
 import 'package:flutter_study/ui/easy_refresh_view_demo.dart';
 import 'package:flutter_study/ui/sigle_child_scroller.dart';
@@ -19,6 +19,8 @@ import 'package:flutter_study/widget/loading_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FlutterError.onError = (FlutterErrorDetails flutterErrorDetails) {};
   runApp(const MyApp());
   configLoading();
 }
@@ -57,7 +59,16 @@ class MyApp extends StatelessWidget {
         '/stagger': (context) => const StaggerAnimationPage(),
         '/custom': (context) => const CustomViewPage(),
         '/bottomNavigation': (context) => const BottomNavigationBarPage(),
-        '/wan_android': (context) => const WanMainPage()
+        '/wan_android': (context) => const WanMainPage(),
+        'test/state': (context) => const StateDemoPage()
+      },
+      onGenerateRoute: (RouteSettings routeSettings) {
+        return MaterialPageRoute(
+            builder: (context) {
+              var routeName = routeSettings.name;
+              return const Text("sf");
+            },
+            maintainState: true);
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -196,7 +207,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text("bottomNavigation")),
             ElevatedButton(
                 onPressed: () => {Navigator.pushNamed(context, "/wan_android")},
-                child: const Text("玩安卓首页"))
+                child: const Text("玩安卓首页")),
+            ElevatedButton(
+                onPressed: () => {Navigator.pushNamed(context, 'test/state')},
+                child: const Text('test'))
           ],
         ),
       ),
